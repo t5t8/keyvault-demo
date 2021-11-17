@@ -14,6 +14,7 @@ resource "tls_private_key" "vm" {
 ## Needed to let RBAC updates complete in keyvault
 resource "time_sleep" "vm" {
   create_duration = "300s"
+  destroy_duration = "300s"
   depends_on = [module.keyvault_1]
 }
 
