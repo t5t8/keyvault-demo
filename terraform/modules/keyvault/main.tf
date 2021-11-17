@@ -5,10 +5,10 @@ resource "azurerm_key_vault" "kv" {
   enabled_for_disk_encryption = var.enabled_for_disk_encryption ## true
   tenant_id                   = var.tenant_id
 
-  purge_protection_enabled    = var.purge_protection_enabled ##false
- 
-  sku_name = var.sku_name ## "standard"
-  enable_rbac_authorization = true ## Using RBAC for all kvs
+  purge_protection_enabled = var.purge_protection_enabled ##false
+
+  sku_name                  = var.sku_name ## "standard"
+  enable_rbac_authorization = true         ## Using RBAC for all kvs
 
 }
 
