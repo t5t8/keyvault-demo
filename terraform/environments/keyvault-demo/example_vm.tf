@@ -46,7 +46,7 @@ resource "azurerm_subnet" "vm" {
 }
 
 resource "azurerm_network_interface" "vm" {
-  name                = "vm-nic"
+  name                = "${var.prefix}-vm-nic"
   location            = azurerm_resource_group.keyvaultdemo.location
   resource_group_name = azurerm_resource_group.keyvaultdemo.name
 
@@ -58,7 +58,7 @@ resource "azurerm_network_interface" "vm" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "vm-machine"
+  name                = "${var.prefix}-vm-machine"
   resource_group_name = azurerm_resource_group.keyvaultdemo.name
   location            = azurerm_resource_group.keyvaultdemo.location
   size                = "Standard_F2"
