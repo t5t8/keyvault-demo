@@ -9,7 +9,7 @@ variable "location" {
   default = "westeurope"
 }
 
-variable "resource_group" {
+variable "resource_group_name" {
   type = string
   description = "Resource group of the Key Vault"
 }

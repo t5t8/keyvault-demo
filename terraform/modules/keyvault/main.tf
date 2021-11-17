@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "kv" {
   name                        = var.name
   location                    = var.location
-  resource_group_name         = var.resource_group
+  resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = var.enabled_for_disk_encryption ## true
   tenant_id                   = var.tenant_id
 
