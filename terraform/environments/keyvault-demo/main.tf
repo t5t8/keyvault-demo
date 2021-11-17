@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "keyvaultdemo" {
 }
 
 module "keyvault_1" {
-  source = ./../../modules/keyvault
+  source = "./../../modules/keyvault"
   name                        = "${var.prefix}-keyvault"
   location                    = azurerm_resource_group.keyvaultdemo.location
   resource_group_name         = azurerm_resource_group.keyvaultdemo.name
