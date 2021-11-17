@@ -1,29 +1,41 @@
+## Create random password
 resource "random_password" "vm" {
   length           = 16
   special          = true
   override_special = "_%@"
 }
 
-resource "azurerm_key_vault_secret" "vm_password" {
-  name         = "${var.prefix}-vm-admin-password"
-  value        = random_password.vm.result
-  key_vault_id = module.keyvault_1.id
-  content_type = "Vm admin password"
-}
-
-## Create private key and store it i
+## Create tls private key
 resource "tls_private_key" "vm" {
   algorithm = "RSA"
   rsa_bits  = "4096"
 }
 
+## Needed to let RBAC updates complete in keyvault
+resource "time_sleep" "vm" {
+  create_duration = "300s"
+  depends_on = [module.keyvault_1]
+}
+
+## Set secret using random password
+resource "azurerm_key_vault_secret" "vm_password" {
+  name         = "${var.prefix}-vm-admin-password"
+  value        = random_password.vm.result
+  key_vault_id = module.keyvault_1.id
+  content_type = "Vm admin password"
+  depends_on = [time_sleep.vm]
+}
+
+## Set secret using private key
 resource "azurerm_key_vault_secret" "vm_private_key" {
   name         = "${var.prefix}-vm-ssh-private-key"
   value        = tls_private_key.vm.private_key_pem
   key_vault_id = module.keyvault_1.id
   content_type = "VM ssh private key"
+  depends_on = [time_sleep.vm]
 }
 
+## Set SSH public key
 resource "azurerm_ssh_public_key" "vm" {
   name                = "${var.prefix}-vm-ssh-key"
   resource_group_name = azurerm_resource_group.keyvaultdemo.name
