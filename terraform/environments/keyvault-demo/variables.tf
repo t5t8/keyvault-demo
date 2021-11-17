@@ -17,9 +17,11 @@ variable "tenant_id" {
 variable "keyvault_admins" {
   type        = list(string)
   description = "UUID list of keyvault admin users and groups"
+  default     = []
 }
 
 variable "keyvault_readers" {
   type        = list(string)
   description = "UUID list of keyvault reader users and groups"
+  default     = []
 }
