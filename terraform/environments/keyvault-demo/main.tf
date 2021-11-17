@@ -11,7 +11,7 @@ module "keyvault_1" {
   enabled_for_disk_encryption = true
   tenant_id                   = var.tenant_id
 
-  key_vault_readers        = []
-  key_vault_administrators = []
+  key_vault_readers        = var.keyvault_readers
+  key_vault_administrators = var.keyvault_admins
 
 }
