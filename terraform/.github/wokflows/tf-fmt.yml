@@ -1,0 +1,31 @@
+name: Terraform fmt
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: 'Terraform fmt'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { dir: ["terraform/environments/", "terraform/modules/"] }
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ matrix.dir }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Run Terraform format on all environments.
+      run: terraform fmt -check -recursive
