@@ -22,17 +22,19 @@ resource "azurerm_app_service" "demo" {
   }
 
   app_settings = {
-    "VMPassword_from_keyvault" = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-admin-password)"
+    ## Set these values from keyvault references
+    "VMPassword_from_keyvault"   = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-admin-password)"
     "VMPrivatekey_from_keyvault" = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-ssh-private-key)"
 
   }
 
   identity {
-    type = "SystemAssigned" ## Use system assigned managed identity.
+    type = "SystemAssigned"
   }
 }
 
 ## Grant app service access to keyvault secrets
+## Use resources own identity
 resource "azurerm_role_assignment" "demo" {
   scope                = data.azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Secrets User"
