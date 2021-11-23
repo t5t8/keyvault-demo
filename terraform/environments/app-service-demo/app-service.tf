@@ -3,7 +3,7 @@ resource "azurerm_app_service_plan" "demo" {
   location            = data.azurerm_resource_group.demo.location
   resource_group_name = data.azurerm_resource_group.demo.name
   kind                = "linux"
-
+  reserved            = true
   sku {
     tier = "Basic"
     size = "B1"
