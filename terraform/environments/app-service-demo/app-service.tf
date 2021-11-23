@@ -38,7 +38,7 @@ resource "azurerm_app_service" "demo" {
 resource "azurerm_role_assignment" "demo" {
   scope                = data.azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Secrets User"
-  principal_id          = azurerm_app_service.demo.identity.0.principal_id
+  principal_id         = azurerm_app_service.demo.identity.0.principal_id
 
 }
 ## eof
