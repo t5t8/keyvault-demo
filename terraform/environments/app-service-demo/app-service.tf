@@ -22,7 +22,8 @@ resource "azurerm_app_service" "demo" {
   }
 
   app_settings = {
-    "SECRET" = "get from kv"
+    "VMPassword" = "@Microsoft.KeyVault({VaultName=${data.azurerm_key_vault.demo.vault_uri},SecretName=${var.prefix}-vm-ssh-private-key})"
+
   }
 
   identity {
@@ -30,10 +31,10 @@ resource "azurerm_app_service" "demo" {
   }
 }
 
+## Grant app service reader access to keyvault
 resource "azurerm_role_assignment" "demo" {
   scope                = data.azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Reader"
-
-  principal_id = azurerm_app_service.demo.identity.0.principal_id
+  principal_id         = azurerm_app_service.demo.identity.0.principal_id
 
 }
