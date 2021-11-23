@@ -32,10 +32,10 @@ resource "azurerm_app_service" "demo" {
   }
 }
 
-## Grant app service reader access to keyvault
+## Grant app service access to keyvault secrets
 resource "azurerm_role_assignment" "demo" {
   scope                = data.azurerm_key_vault.demo.id
-  role_definition_name = "Key Vault Reader"
+  role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_app_service.demo.identity.0.principal_id
 
 }
