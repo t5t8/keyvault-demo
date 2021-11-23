@@ -13,9 +13,9 @@ resource "tls_private_key" "vm" {
 
 ## Needed to let RBAC updates complete in keyvault
 resource "time_sleep" "vm" {
-  create_duration = "300s"
+  create_duration  = "300s"
   destroy_duration = "300s"
-  depends_on = [module.keyvault_1]
+  depends_on       = [module.keyvault_1]
 }
 
 ## Set secret using random password
@@ -24,7 +24,7 @@ resource "azurerm_key_vault_secret" "vm_password" {
   value        = random_password.vm.result
   key_vault_id = module.keyvault_1.id
   content_type = "Vm admin password"
-  depends_on = [time_sleep.vm]
+  depends_on   = [time_sleep.vm]
 }
 
 ## Set secret using private key
@@ -33,7 +33,7 @@ resource "azurerm_key_vault_secret" "vm_private_key" {
   value        = tls_private_key.vm.private_key_pem
   key_vault_id = module.keyvault_1.id
   content_type = "VM ssh private key"
-  depends_on = [time_sleep.vm]
+  depends_on   = [time_sleep.vm]
 }
 
 ## Set SSH public key
