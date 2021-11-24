@@ -21,8 +21,8 @@ resource "azurerm_app_service" "demo" {
     scm_type         = "None"
   }
 
+  ## Set these values from keyvault to app settings
   app_settings = {
-    ## Set these values from keyvault references
     "VMPassword_from_keyvault"   = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-admin-password)"
     "VMPrivatekey_from_keyvault" = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-ssh-private-key)"
 
@@ -39,6 +39,4 @@ resource "azurerm_role_assignment" "demo" {
   scope                = data.azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_app_service.demo.identity.0.principal_id
-
 }
-## eof
