@@ -1,6 +1,6 @@
 ## Create random password
 resource "random_password" "vm" {
-  length           = 16
+  length           = 17
   special          = true
   override_special = "_%@"
 }

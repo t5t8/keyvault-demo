@@ -25,7 +25,7 @@ resource "azurerm_app_service" "demo" {
   app_settings = {
     "VMPassword_from_keyvault"   = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-admin-password)"
     "VMPrivatekey_from_keyvault" = "@Microsoft.KeyVault(VaultName=${data.azurerm_key_vault.demo.name};SecretName=${var.prefix}-vm-ssh-private-key)"
-
+    "DEMOsetting" = "test"
   }
 
   identity {
